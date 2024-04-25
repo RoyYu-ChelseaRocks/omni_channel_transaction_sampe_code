@@ -9,7 +9,7 @@
     -- if_eff_order_tag: DOUYIN = true, DOUYIN_B2B = true, TMALL = true, LCS = (ture, false)
     -- source_channel = DOUYIN, DOUYIN_B2B, TMALL, LCS
     -- crm_member_detail_id: 就是member_detail_id
-    -- type_name: 渠道内的id类型，LCS = CRM_memberid， DOUYIN & DOUYIN_B2B = DY_openid, TM = TMALL_kyid
+    -- type_name: 渠道内的id类型，LCS = CRM_memberid (9 digits)， DOUYIN & DOUYIN_B2B = DY_openid, TM = TMALL_kyid
     -- type_value: 对应type_name的具体id数值
 
 -- LCS Part
