@@ -1,3 +1,4 @@
+-- data verification for each channel on 2024-04-25, result = PASSED
 -- edw.f_omni_channel_order_detail中已针对各渠道做以下处理
     -- LCS: data_source = 'lcs-pos-order-detail' and partner_name <> 'LBR' and if_package_tag = false
     -- LCS: inner join edw.d_dl_product_info_latest to exclude self-built merchandise
@@ -10,7 +11,6 @@
     -- crm_member_detail_id: 就是member_detail_id
     -- type_name: 渠道内的id类型，LCS = CRM_memberid， DOUYIN & DOUYIN_B2B = DY_openid, TM = TMALL_kyid
     -- type_value: 对应type_name的具体id数值
-
 
 -- LCS Part
 with
