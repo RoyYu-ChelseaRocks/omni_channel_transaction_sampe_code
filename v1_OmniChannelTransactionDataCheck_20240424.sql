@@ -9,7 +9,7 @@
     -- if_eff_order_tag: DOUYIN = true, DOUYIN_B2B = true, TMALL = true, LCS = (ture, false)
     -- source_channel = DOUYIN, DOUYIN_B2B, TMALL, LCS
     -- crm_member_detail_id: 就是member_detail_id
-    -- type_name: 渠道内的id类型，LCS = CRM_memberid (9 digits)， DOUYIN & DOUYIN_B2B = DY_openid, TM = TMALL_kyid
+    -- type_name: 渠道内的id类型，LCS = CRM_memberid (9 digits) / DP_assigned_id (special for non-member)， DOUYIN & DOUYIN_B2B = DY_openid, TM = TMALL_kyid
     -- type_value: 对应type_name的具体id数值
 
 -- LCS Part
@@ -91,7 +91,7 @@ cm1.lego_year as trans_lego_year,
 sum(case when sales_qty > 0 then order_rrp_amt else 0 end) as total_normal_sales,
 sum(case when sales_qty < 0 then abs(order_rrp_amt) else 0 end) as toral_return_sales,
 total_normal_sales - toral_return_sales as valid_total_sales,
-count(distinct case when if_eff_order_tag = true then concat(original_store_code, original_order_id) else null end) as valid_total_order,
+count(distinct case when if_eff_order_tag = true then parent_order_id else null end) as valid_total_order,
 
 sum(case when sales_qty > 0 then sales_qty else 0 end) as total_normal_qty,
 sum(case when sales_qty < 0 then abs(sales_qty) else 0 end) as toral_return_qty,
@@ -100,7 +100,7 @@ total_normal_qty - toral_return_qty as valid_total_qty,
 sum(case when sales_qty > 0 and is_member_order = true then order_rrp_amt else 0 end) as member_normal_sales,
 sum(case when sales_qty < 0 and is_member_order = true then abs(order_rrp_amt) else 0 end) as member_return_sales,
 member_normal_sales - member_return_sales as valid_member_sales,
-count(distinct case when if_eff_order_tag = true and is_member_order = true then concat(original_store_code, original_order_id) else null end) as valid_member_order,
+count(distinct case when if_eff_order_tag = true and is_member_order = true then parent_order_id else null end) as valid_member_order,
 count(distinct case when if_eff_order_tag = true and is_member_order = true then type_value else null end) as valid_member_shopper,
 
 sum(case when sales_qty > 0 and is_member_order = true then sales_qty else 0 end) as member_normal_qty,
@@ -110,7 +110,7 @@ member_normal_qty - member_return_qty as valid_member_qty,
 sum(case when sales_qty > 0 and is_member_order = true and reg.eff_reg_channel like '%LCS%' and cm1.lego_year = cm2.lego_year then order_rrp_amt else 0 end) as new_member_normal_sales,
 sum(case when sales_qty < 0 and is_member_order = true and reg.eff_reg_channel like '%LCS%' and cm1.lego_year = cm2.lego_year then abs(order_rrp_amt) else 0 end) as new_member_return_sales,
 new_member_normal_sales - new_member_return_sales as valid_new_member_sales,
-count(distinct case when if_eff_order_tag = true and is_member_order = true and reg.eff_reg_channel like '%LCS%' and cm1.lego_year = cm2.lego_year then concat(original_store_code, original_order_id) else null end) as valid_new_member_order,
+count(distinct case when if_eff_order_tag = true and is_member_order = true and reg.eff_reg_channel like '%LCS%' and cm1.lego_year = cm2.lego_year then parent_order_id else null end) as valid_new_member_order,
 count(distinct case when if_eff_order_tag = true and is_member_order = true and reg.eff_reg_channel like '%LCS%' and cm1.lego_year = cm2.lego_year then type_value else null end) as valid_new_member_shopper,
 
 sum(case when sales_qty > 0 and is_member_order = true and reg.eff_reg_channel like '%LCS%' and cm1.lego_year = cm2.lego_year then sales_qty else 0 end) as new_member_normal_qty,
