@@ -17,7 +17,7 @@ lego_calendar_fact as
 omni_trans_fact as
     (
         select
-        date(tr.order_paid_date) as order_paid_date,
+        date(tr.order_paid_time) as order_paid_date,
         case
         when tr.type_name in ('CRM_memberid', 'DY_openid', 'TMALL_kyid') then coalesce(cast(mbr.id as varchar), cast(tr.type_value as varchar))
         else null end as omni_channel_member_id, -- 优先取member_detail_id，缺失情况下再取渠道内部id
@@ -36,12 +36,12 @@ omni_trans_fact as
         left join edw.f_crm_member_detail as mbr
         on cast(tr.crm_member_detail_id as varchar) = cast(mbr.member_id as varchar)
         left join lego_calendar_fact as cm1 -- cm1 for mapping of transaction date
-        on date(tr.order_paid_date) = date(cm1.date_id)
+        on date(tr.order_paid_time) = date(cm1.date_id)
         left join lego_calendar_fact as cm2 -- cm1 for mapping of registration date
         on coalesce(date(mbr.join_time), date(tr.first_bind_time)) = date(cm2.date_id) -- 优先取CRM注册时间，缺失情况下取渠道内绑定时间
         where 1 = 1
         and source_channel in ('LCS', 'TMALL', 'DOUYIN', 'DOUYIN_B2B')
-        and date(tr.order_paid_date) < current_date
+        and date(tr.order_paid_time) < current_date
         and ((tr.source_channel = 'LCS' and sales_type <> 3) or (tr.source_channel in ('TMALL', 'DOUYIN', 'DOUYIN_B2B') and tr.order_type = 'normal')) -- specific filtering for LCS, TM and DY
     )
 
