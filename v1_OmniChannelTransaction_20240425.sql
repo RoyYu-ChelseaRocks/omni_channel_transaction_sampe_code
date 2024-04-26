@@ -28,10 +28,10 @@ omni_trans_fact as
         tr.order_rrp_amt,
         cm1.lego_year as trans_lego_year,
         cm1.lego_quarter as trans_lego_quarter,
-        cm1.lego_month as trans_lego_quarter,
+        cm1.lego_month as trans_lego_month,
         cm2.lego_year as reg_lego_year,
         cm2.lego_quarter as reg_lego_quarter,
-        cm2.lego_month as reg_lego_quarter     
+        cm2.lego_month as reg_lego_month     
         from edw.f_omni_channel_order_detail as tr
         left join edw.f_crm_member_detail as mbr
         on cast(tr.crm_member_detail_id as varchar) = cast(mbr.member_id as varchar)
